@@ -25,7 +25,7 @@ defineProps({
         />
 
         <span class="option-letter">{{ letter }}</span>
-        <span class="option-text">{{ option.text }}</span>
+        <span class="option-text">{{ option.content.text }}</span>
     </label>
 </template>
 

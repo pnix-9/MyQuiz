@@ -31,7 +31,29 @@ defineEmits(['select-option', "toggle-flag"]);
         </div>
 
         <div class="question-title-row">
-            <h2>{{ question.text }}</h2>
+            <!-- <h2>{{ question.text }}</h2> -->
+
+
+            <!-- updating here this block-->
+             <div class="space-y-5 text-gray-200">
+          <template v-for="(item, index) in question.content" :key="index">
+            <p v-if="item.type === 'text'" class="text-base md:text-lg font-medium leading-relaxed text-gray-200">
+              {{ item.value }}
+            </p>
+
+            <!-- Code Illustration Box with White Border (matching mockup) -->
+            <div v-else-if="item.type === 'image'" class="w-full overflow-x-auto my-4 p-3 bg-black/90 rounded-xl border-2 border-white/90 shadow-lg">
+              <img 
+                :src="item.value" 
+                alt="Question illustration" 
+                class="rounded max-h-64 object-contain mx-auto"
+              />
+            </div>
+          </template>
+        </div>
+         <!-- updating here this block-->
+
+
             <button
                 class="flag-button"
                 :class="{flagged: isFlagged}"
@@ -49,6 +71,7 @@ defineEmits(['select-option', "toggle-flag"]);
                 v-for="(option, index) in question.options"
                 :key="option.id"
                 :option="option"
+                :type="question.type"
                 :letter="String.fromCharCode(65+index)"
                 :selected="selectedOptionId === option.id"
                 @select="$emit('select-option', option.id)"

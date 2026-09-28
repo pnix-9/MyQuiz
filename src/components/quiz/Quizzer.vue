@@ -4,6 +4,7 @@ import QuizQuestion from './QuizQuestion.vue';
 import QuizHeader from "./QuizHeader.vue";
 import QuestionNavigator from "./QuestionNavigator.vue";
 import QuizFooter from "./QuizFooter.vue";
+import side_navigator from "../side_navigator.vue";
 
 const props = defineProps({
     questions : {
@@ -82,6 +83,7 @@ watch(
 </script>
 <template>
 
+<!-- <side_navigator/>
 <QuizHeader
         :title="title"
         :module="module"
@@ -109,7 +111,56 @@ watch(
         @previous="goPrevious"
         @next="goNext"
         @submit="submitQuiz"
-/>
+/> -->
+
+
+
+
+ <div class="quiz-layout-container">
+    
+    <!-- Left Column: Collapsible Sidebar -->
+    <side_navigator />
+
+    <!-- Right Column: Full Quiz Content Stack -->
+    <div class="quiz-main-content">
+      
+      <QuizHeader
+        :title="title"
+        :module="module"
+        :current-question="currentIndex + 1"
+        :total-questions="questions.length"
+      />
+      
+      <QuestionNavigator
+        :questions="questions"
+        :current-index="currentIndex"
+        :answers="answers"
+        :flagged-question-ids="flaggedQuestionIds"
+        @select="goToQuestion"
+      />
+      
+      <QuizQuestion
+        :question="currentQuestion"
+        :question-number="currentIndex + 1"
+        :selected-option-id="answers[currentQuestion.id]"
+        :is-flagged="flaggedQuestionIds.includes(currentQuestion.id)"
+        @select-option="chooseAnswer"
+        @toggle-flag="toggleFlag(currentQuestion.id)"
+      />
+      
+      <QuizFooter
+        :is-first-question="isFirstQuestion"
+        :is-last-question="isLastQuestion"
+        @previous="goPrevious"
+        @next="goNext"
+        @submit="submitQuiz"
+      />
+
+    </div>
+  </div>
+
+
+
 </template>
 <style scoped>
 .quiz-shell {
@@ -137,4 +188,33 @@ watch(
   background: #fff;
   border-radius: 16px;
 }
+
+
+
+
+
+
+
+
+/* Master container holding both navigation and content */
+.quiz-layout-container {
+  display: flex;
+  flex-direction: row;
+  width: 100vw;
+  min-height: 100vh;
+  align-items: stretch;
+}
+
+/* Right content panel takes up all remaining viewport spacing */
+.quiz-main-content {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  overflow-y: auto;
+  
+  /* Ensure padding balances beautifully like your original snapshot setup */
+  background-color: #ffffff; 
+}
+
+
 </style>

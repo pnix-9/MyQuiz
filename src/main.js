@@ -1,14 +1,23 @@
-import { createApp } from 'vue'
-import App from './App.vue'
-// import QuizQuestion from './components/quiz/QuizQuestion.vue';
+import { createApp } from 'vue';
+import { createRouter, createWebHistory } from 'vue-router'; // 1. Import router functions
+import App from './App.vue';
+import home from './home1.vue';
 
-// router = Vue.router(
-//     {
-//   path: '/test-component',
-//   component:  QuizQuestion)
-// }
-// )
+// 2. Define your routes correctly
+const routes = [
+  {
+    path: '/test-component',
+    component: home,
+  }
+];
 
-createApp(App).mount('#app');
-// app.use(router);
-// app.mount('#app');
+// 3. Create the router instance
+const router = createRouter({
+  history: createWebHistory(),
+  routes,
+});
+
+// 4. Declare app and use router properly
+const app = createApp(App);
+app.use(router);
+app.mount('#app');
